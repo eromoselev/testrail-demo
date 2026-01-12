@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "==> FIPS status"
+if [ -f /proc/sys/crypto/fips_enabled ]; then
+  cat /proc/sys/crypto/fips_enabled
+else
+  echo "FIPS status file not present (container environment)"
+fi
+
+echo "==> OpenSSL providers"
+openssl list -providers 2>/dev/null || true
+
+
 TR_WEBROOT="${TR_WEBROOT:-/var/www/testrail}"
 TR_APP_USER="${TR_APP_USER:-testrail}"
 TR_APP_UID="${TR_APP_UID:-1001}"

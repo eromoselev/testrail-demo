@@ -13,6 +13,7 @@ ENV TR_WEBROOT=/var/www/testrail \
     TR_APP_GID=${APP_GID} \
     TR_CHROME_PATH=/usr/bin/chrome-headless-shell-linux64/chrome-headless-shell
 
+
 # -----------------------------------------------------------------------------
 # Enable PHP 8.1 (TestRail requirement)
 # -----------------------------------------------------------------------------
@@ -26,6 +27,7 @@ RUN set -eux; \
       php-mysqlnd php-gd php-mbstring php-xml php-zip php-json php-ldap php-opcache \
       unzip tar gzip \
       ca-certificates \
+      crypto-policies \
       shadow-utils findutils which; \
     dnf clean all; \
     rm -rf /var/cache/dnf /var/cache/yum
@@ -35,7 +37,8 @@ RUN set -eux; \
 # -----------------------------------------------------------------------------
 RUN set -eux; \
     groupadd -g "${APP_GID}" "${TR_APP_USER}" 2>/dev/null || true; \
-    useradd  -r -u "${APP_UID}" -g "${APP_GID}" -M -s /sbin/nologin "${TR_APP_USER}" 2>/dev/null || true
+    useradd  -r -u "${APP_UID}" -g "${APP_GID}" -M -s /sbin/nologin "${TR_APP_USER}" 2>/dev/null || true 
+
 
 # -----------------------------------------------------------------------------
 # Install TestRail from build context (NO internet)
